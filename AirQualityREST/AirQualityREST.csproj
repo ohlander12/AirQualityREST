@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,12 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Luftkvalitet">
-      <HintPath>..\..\..\..\..\source\repos\AirQuality\Luftkvalitet\bin\Debug\net8.0\Luftkvalitet.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
