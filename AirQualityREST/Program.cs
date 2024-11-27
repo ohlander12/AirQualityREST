@@ -1,4 +1,4 @@
- 
+using Luftkvalitet;
 
 var builder = WebApplication.CreateBuilder(args);
 

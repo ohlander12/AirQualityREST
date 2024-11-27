@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Reference Include="Luftkvalitet">
+      <HintPath>..\..\AirQuality\Luftkvalitet\bin\Debug\net8.0\Luftkvalitet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
