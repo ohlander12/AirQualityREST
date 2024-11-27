@@ -14,7 +14,7 @@ namespace AirQualityREST.Controllers
 
         // GET: api/<AirQualitiesController>
         [HttpGet]
-        public IEnumerable<Measurement> Get([FromQuery] string Location, [FromQuery] DateTime dateTimeLower, [FromQuery] DateTime dateTimeUpper)
+        public IEnumerable<Measurement> Get([FromQuery] string? Location, [FromQuery] DateTime? dateTimeLower, [FromQuery] DateTime? dateTimeUpper)
         {
             return meassurements.GetAll(Location, dateTimeLower, dateTimeUpper);
         }
