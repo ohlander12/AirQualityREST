@@ -13,15 +13,11 @@ namespace AirQualityRESTTests.LuftkvalitetTests
     [TestClass]
     public class MeasurmentDbContextTests
     {
-
-
         private MeasurmentsRepoDB? measurementRepo;
 
         [TestInitialize]
         public void Init()
         {
-
-
             var optionsBuilder = new DbContextOptionsBuilder<MeasurmentDbContext>();
             optionsBuilder.UseSqlServer(Secrets.ConnectionString);
 
@@ -29,10 +25,6 @@ namespace AirQualityRESTTests.LuftkvalitetTests
 
             _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurements");
             measurementRepo = new MeasurmentsRepoDB(_dbContext);
-
-
-
-
         }
 
         [TestMethod]
@@ -43,6 +35,28 @@ namespace AirQualityRESTTests.LuftkvalitetTests
             //Measurement? result = repo.GetById(1);
 
             //Assert.IsNull(result);
+        }
+
+    
+        [TestMethod]
+        public async Task GetAll_ShouldReturnEmptyList_WhenNoMeasurements()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
+                .UseSqlServer(Secrets.ConnectionString)
+                .Options;
+
+            using (var context = new MeasurmentDbContext(options))
+            {
+                var repository = new MeasurmentsRepoDB(context);
+
+                // Act
+                var result = await Task.Run(() => repository.GetAll());
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.AreEqual(0, result.Count);
+            }
         }
     }
 }

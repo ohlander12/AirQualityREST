@@ -1,10 +1,11 @@
 ﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Microsoft.EntityFrameworkCore;
 //using AirQualityREST.Luftkvalitet;
+//using System;
 //using System.Collections.Generic;
+//using Microsoft.EntityFrameworkCore;
 //using System.Linq;
 
-//namespace AirQualityRESTTests.LuftkvalitetTests
+//namespace AirQualityREST.Tests
 //{
 //    [TestClass]
 //    public class MeasurmentsRepoDBTests
@@ -13,91 +14,71 @@
 //        private MeasurmentsRepoDB _repo;
 
 //        [TestInitialize]
-//        public void TestInitialize()
+//        public void Setup()
 //        {
-//            // Opretter en in-memory database
+//            // Create in-memory database for testing
 //            var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
+//                .UseInMemoryDatabase(databaseName: "TestDatabase")
 //                .Options;
 
 //            _context = new MeasurmentDbContext(options);
 //            _repo = new MeasurmentsRepoDB(_context);
 
-//            // Rydder databasen før hver test
-//            _context.Database.EnsureDeleted();
-//            _context.Database.EnsureCreated();
+//            // Seed test data
+//            _context.Measurements.AddRange(
+//                new Measurement { Id = 1, CO2 = 1500, Humidity = 100, Location = "Her", Time = DateTime.Now.AddDays(-300) },
+//                new Measurement { Id = 2, CO2 = 700, Humidity = 56, Location = "Der", Time = DateTime.Now.AddDays(-100) },
+//                new Measurement { Id = 3, CO2 = 300, Humidity = 72, Location = "Et andet sted", Time = DateTime.Now.AddDays(-1000) },
+//                new Measurement { Id = 4, CO2 = 800, Humidity = 1, Location = "Et tredje sted", Time = DateTime.Now }
+//            );
+//            _context.SaveChanges();
 //        }
 
 //        [TestMethod]
-//        public void Add_Should_AddMeasurement_And_ReturnIt()
+//        public void GetAllTest()
 //        {
-//            // Arrange
-//            var measurement = new Measurement { Value = 42.5, Unit = "ppm" };
-
-//            // Act
-//            var result = _repo.add(measurement);
-
-//            // Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(42.5, result.Value);
-//            Assert.AreEqual(1, _repo.Count);
+//            List<Measurement> measurements = _repo.GetAll();
+//            Assert.AreEqual(4, measurements.Count);
 //        }
 
 //        [TestMethod]
-//        public void Delete_Should_RemoveMeasurement_And_ReturnIt()
+//        public void GetByIdTest()
 //        {
-//            // Arrange
-//            var measurement = new Measurement { Value = 42.5, Unit = "ppm" };
-//            var addedMeasurement = _repo.add(measurement);
-
-//            // Act
-//            var result = _repo.Delete(addedMeasurement.Id);
-
-//            // Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(addedMeasurement.Id, result.Id);
-//            Assert.AreEqual(0, _repo.Count);
+//            Measurement measurement = _repo.GetById(1);
+//            Assert.IsNotNull(measurement);
+//            Assert.AreEqual(1500, measurement.CO2);
 //        }
 
 //        [TestMethod]
-//        public void GetById_Should_ReturnMeasurement_WhenExists()
+//        public void AddTest()
 //        {
-//            // Arrange
-//            var measurement = new Measurement { Value = 42.5, Unit = "ppm" };
-//            var addedMeasurement = _repo.add(measurement);
+//            Measurement newMeasurement = new Measurement { CO2 = 1200, Humidity = 80, Location = "Ny lokation", Time = DateTime.Now };
+//            _repo.add(newMeasurement);
 
-//            // Act
-//            var result = _repo.GetById(addedMeasurement.Id);
-
-//            // Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(addedMeasurement.Id, result.Id);
+//            List<Measurement> measurements = _repo.GetAll();
+//            Assert.AreEqual(5, measurements.Count);
+//            Assert.AreEqual("Ny lokation", measurements.Last().Location);
 //        }
 
 //        [TestMethod]
-//        public void GetById_Should_ReturnNull_WhenDoesNotExist()
+//        public void DeleteTest()
 //        {
-//            // Act
-//            var result = _repo.GetById(1);
+//            Measurement deletedMeasurement = _repo.Delete(1);
 
-//            // Assert
-//            Assert.IsNull(result);
+//            Assert.IsNotNull(deletedMeasurement);
+//            Assert.AreEqual(1500, deletedMeasurement.CO2);
+
+//            Measurement measurement = _repo.GetById(1);
+//            Assert.IsNull(measurement);
+
+//            List<Measurement> measurements = _repo.GetAll();
+//            Assert.AreEqual(3, measurements.Count);
 //        }
 
-//        [TestMethod]
-//        public void GetAll_Should_ReturnAllMeasurements()
+//        [TestCleanup]
+//        public void Cleanup()
 //        {
-//            // Arrange
-//            var measurement1 = new Measurement { Value = 42.5, Unit = "ppm" };
-//            var measurement2 = new Measurement { Value = 30.2, Unit = "ppm" };
-//            _repo.add(measurement1);
-//            _repo.add(measurement2);
-
-//            // Act
-//            var result = _repo.GetAll();
-
-//            // Assert
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(2, result.Count);
+//            _context.Dispose();
 //        }
 //    }
 //}
