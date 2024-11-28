@@ -37,21 +37,21 @@ namespace AirQualityREST.Controllers
         }
 
         // POST api/<AirQualitiesController>
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Measurement> Post([FromBody] Measurement newMeasurement)
-        {
-            Measurement createdMeasurement = meassurements.Add(newMeasurement);
-            if (createdMeasurement == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Created("Measurement created", createdMeasurement);
-            }
-        }
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public ActionResult<Measurement> Post([FromBody] Measurement newMeasurement)
+        //{
+        //    Measurement createdMeasurement = meassurements.Add(newMeasurement);
+        //    if (createdMeasurement == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    else
+        //    {
+        //        return Created("Measurement created", createdMeasurement);
+        //    }
+        //}
 
         // PUT api/<AirQualitiesController>/5
         [HttpPut("{id}")]
