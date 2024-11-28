@@ -8,6 +8,8 @@ namespace AirQualityREST.Luftkvalitet
 
         public DbSet<Measurement> Measurements { get; set; }
 
+        public DbSet<Measurement> Tests { get; set; }
+
 
         public MeasurmentDbContext(DbContextOptions<MeasurmentDbContext> options) : base(options)
         {
