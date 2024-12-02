@@ -13,19 +13,19 @@ namespace AirQualityRESTTests.LuftkvalitetTests
     [TestClass]
     public class MeasurmentDbContextTests
     {
-        private MeasurmentsRepoDB? measurementRepo;
+        //private MeasurmentsRepoDB? measurementRepo;
 
-        [TestInitialize]
-        public void Init()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<MeasurmentDbContext>();
-            optionsBuilder.UseSqlServer(Secrets.ConnectionString);
+        //[TestInitialize]
+        //public void Init()
+        //{
+        //    var optionsBuilder = new DbContextOptionsBuilder<MeasurmentDbContext>();
+        //    optionsBuilder.UseSqlServer(Secrets.ConnectionString);
 
-            MeasurmentDbContext _dbContext = new(optionsBuilder.Options);
+        //    MeasurmentDbContext _dbContext = new(optionsBuilder.Options);
 
-            _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurements");
-            measurementRepo = new MeasurmentsRepoDB(_dbContext);
-        }
+        //    _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurements");
+        //    measurementRepo = new MeasurmentsRepoDB(_dbContext);
+        //}
 
         //[TestMethod]
         //public void NullTest()
