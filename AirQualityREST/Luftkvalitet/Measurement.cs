@@ -28,10 +28,10 @@
             {
                 throw new System.Exception("CO2 must be a positive number");
             }
-            //if (Time == default)
-            //{
-            //    throw new System.Exception("Time is required");
-            //}
+            if (Time == default)
+            {
+                throw new System.Exception("time is required");
+            }
         }
     }
 }

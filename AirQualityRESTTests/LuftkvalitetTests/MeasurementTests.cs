@@ -33,11 +33,11 @@ namespace Luftkvalitet.Tests
         public void ValidateTest()
         {
             meassurement1.Validate();
-            Assert.ThrowsException<Exception>(() => meassurement2.Validate());
-            Assert.ThrowsException<Exception>(() => meassurement3.Validate());
-            Assert.ThrowsException<Exception>(() => meassurement4.Validate());
-            Assert.ThrowsException<Exception>(() => meassurement5.Validate());
-            Assert.ThrowsException<Exception>(() => meassurement6.Validate());
+            Assert.ThrowsException<System.Exception>(() => meassurement2.Validate());
+            Assert.ThrowsException<System.Exception>(() => meassurement3.Validate());
+            Assert.ThrowsException<System.Exception>(() => meassurement4.Validate());
+            Assert.ThrowsException<System.Exception>(() => meassurement5.Validate());
+            Assert.ThrowsException<System.Exception>(() => meassurement6.Validate());
         }
     }
 }

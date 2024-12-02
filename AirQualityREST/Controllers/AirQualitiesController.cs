@@ -70,7 +70,7 @@ namespace AirQualityREST.Controllers
                 return Created("Measurement created", createdMeasurement);
             }
         }
-
+        
         // DELETE api/<AirQualitiesController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -26,7 +26,7 @@ namespace AirQualityREST.Tests
             _context = new MeasurmentDbContext(options);
 
             // Ryd databasen før hver test
-            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurement");
+            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurements");
 
             meassurements = new MeasurmentsRepoDB(_context);
 
