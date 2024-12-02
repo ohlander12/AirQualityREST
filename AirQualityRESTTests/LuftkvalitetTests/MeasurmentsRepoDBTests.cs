@@ -54,7 +54,7 @@ namespace AirQualityREST.Tests
             };
 
             // Act
-            var addedMeasurement = meassurements.add(measurement);
+            var addedMeasurement = meassurements.Add(measurement);
 
             // Assert
             Assert.IsNotNull(addedMeasurement);

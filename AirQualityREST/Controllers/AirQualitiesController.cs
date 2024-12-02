@@ -71,16 +71,19 @@ namespace AirQualityREST.Controllers
             }
         }
 
-        // PUT api/<AirQualitiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<AirQualitiesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Measurement> Delete(int id)
         {
+            var record = meassurements.GetById(id);
+            if (record == null)
+            {
+                return NotFound("Measurement not found.");
+            }
+            meassurements.Delete(id);
+            return NoContent();
         }
     }
 }
