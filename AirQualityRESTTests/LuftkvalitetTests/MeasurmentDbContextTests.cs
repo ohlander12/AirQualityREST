@@ -27,36 +27,36 @@ namespace AirQualityRESTTests.LuftkvalitetTests
             measurementRepo = new MeasurmentsRepoDB(_dbContext);
         }
 
-        [TestMethod]
-        public void NullTest()
-        {
-            //MeasurmentsRepoDB repo = new MeasurmentRepoDB();
+        //[TestMethod]
+        //public void NullTest()
+        //{
+        //    //MeasurmentsRepoDB repo = new MeasurmentRepoDB();
 
-            //Measurement? result = repo.GetById(1);
+        //    //Measurement? result = repo.GetById(1);
 
-            //Assert.IsNull(result);
-        }
+        //    //Assert.IsNull(result);
+        //}
 
     
-        [TestMethod]
-        public async Task GetAll_ShouldReturnEmptyList_WhenNoMeasurements()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
-                .UseSqlServer(Secrets.ConnectionString)
-                .Options;
+        //[TestMethod]
+        //public async Task GetAll_ShouldReturnEmptyList_WhenNoMeasurements()
+        //{
+        //    // Arrange
+        //    var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
+        //        .UseSqlServer(Secrets.ConnectionString)
+        //        .Options;
 
-            using (var context = new MeasurmentDbContext(options))
-            {
-                var repository = new MeasurmentsRepoDB(context);
+        //    using (var context = new MeasurmentDbContext(options))
+        //    {
+        //        var repository = new MeasurmentsRepoDB(context);
 
-                // Act
-                var result = await Task.Run(() => repository.GetAll());
+        //        // Act
+        //        var result = await Task.Run(() => repository.GetAll());
 
-                // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(0, result.Count);
-            }
-        }
+        //        // Assert
+        //        Assert.IsNotNull(result);
+        //        Assert.AreEqual(0, result.Count);
+        //    }
+        //}
     }
 }

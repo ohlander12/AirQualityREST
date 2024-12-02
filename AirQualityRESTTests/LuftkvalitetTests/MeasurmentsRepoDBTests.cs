@@ -1,84 +1,143 @@
-﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using AirQualityREST.Luftkvalitet;
-//using System;
-//using System.Collections.Generic;
-//using Microsoft.EntityFrameworkCore;
-//using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AirQualityREST.Luftkvalitet;
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Luftkvalitet;
+using Microsoft.AspNetCore.Routing;
 
-//namespace AirQualityREST.Tests
-//{
-//    [TestClass]
-//    public class MeasurmentsRepoDBTests
-//    {
-//        private MeasurmentDbContext _context;
-//        private MeasurmentsRepoDB _repo;
+namespace AirQualityREST.Tests
+{
+    [TestClass]
+    public class MeasurmentsRepoDBTests
+    {
+        private MeasurmentDbContext _context;
+        private MeasurmentsRepoDB meassurements;
 
-//        [TestInitialize]
-//        public void Setup()
-//        {
-//            // Create in-memory database for testing
-//            var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
-//                .UseInMemoryDatabase(databaseName: "TestDatabase")
-//                .Options;
+        [TestInitialize]
+        public void Setup()
+        {
+            // Brug din faktiske SQL Server forbindelse
+            var options = new DbContextOptionsBuilder<MeasurmentDbContext>()
+                .UseSqlServer(Secrets.ConnectionStringTest)
+                .Options;
 
-//            _context = new MeasurmentDbContext(options);
-//            _repo = new MeasurmentsRepoDB(_context);
+            _context = new MeasurmentDbContext(options);
 
-//            // Seed test data
-//            _context.Measurements.AddRange(
-//                new Measurement { Id = 1, CO2 = 1500, Humidity = 100, Location = "Her", Time = DateTime.Now.AddDays(-300) },
-//                new Measurement { Id = 2, CO2 = 700, Humidity = 56, Location = "Der", Time = DateTime.Now.AddDays(-100) },
-//                new Measurement { Id = 3, CO2 = 300, Humidity = 72, Location = "Et andet sted", Time = DateTime.Now.AddDays(-1000) },
-//                new Measurement { Id = 4, CO2 = 800, Humidity = 1, Location = "Et tredje sted", Time = DateTime.Now }
-//            );
-//            _context.SaveChanges();
-//        }
+            // Ryd databasen før hver test
+            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Measurement");
 
-//        [TestMethod]
-//        public void GetAllTest()
-//        {
-//            List<Measurement> measurements = _repo.GetAll();
-//            Assert.AreEqual(4, measurements.Count);
-//        }
+            meassurements = new MeasurmentsRepoDB(_context);
 
-//        [TestMethod]
-//        public void GetByIdTest()
-//        {
-//            Measurement measurement = _repo.GetById(1);
-//            Assert.IsNotNull(measurement);
-//            Assert.AreEqual(1500, measurement.CO2);
-//        }
+            // Tilføj nogle testdata
+            _context.Measurements.AddRange(
+                 new Measurement { CO2 = 1500, Humidity = 100, Temperature = 22, Location = "Her", Time = DateTime.Now.AddDays(-300) },
+                 new Measurement { CO2 = 700, Humidity = 56, Temperature = 18, Location = "Der", Time = DateTime.Now.AddDays(-100) },
+                 new Measurement { CO2 = 300, Humidity = 72, Temperature = 19, Location = "Et andet sted", Time = DateTime.Now.AddDays(-1000) },
+                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now }
+            );
+            _context.SaveChanges();
+        }
 
-//        [TestMethod]
-//        public void AddTest()
-//        {
-//            Measurement newMeasurement = new Measurement { CO2 = 1200, Humidity = 80, Location = "Ny lokation", Time = DateTime.Now };
-//            _repo.add(newMeasurement);
+        [TestMethod]
+        public void AddMeasurement()
+        {
+            // Arrange
+            var measurement = new Measurement
+            {
+                CO2 = 400,
+                Humidity = 50,
+                Temperature = 20,
+                Location = "Test Location",
+                Time = DateTime.Now
+            };
 
-//            List<Measurement> measurements = _repo.GetAll();
-//            Assert.AreEqual(5, measurements.Count);
-//            Assert.AreEqual("Ny lokation", measurements.Last().Location);
-//        }
+            // Act
+            var addedMeasurement = meassurements.add(measurement);
 
-//        [TestMethod]
-//        public void DeleteTest()
-//        {
-//            Measurement deletedMeasurement = _repo.Delete(1);
+            // Assert
+            Assert.IsNotNull(addedMeasurement);
+            Assert.AreNotEqual(0, addedMeasurement.Id); // Id should be set after adding
+            Assert.AreEqual(measurement.CO2, addedMeasurement.CO2);
+            Assert.AreEqual(measurement.Humidity, addedMeasurement.Humidity);
+            Assert.AreEqual(measurement.Temperature, addedMeasurement.Temperature);
+            Assert.AreEqual(measurement.Location, addedMeasurement.Location);
+        }
 
-//            Assert.IsNotNull(deletedMeasurement);
-//            Assert.AreEqual(1500, deletedMeasurement.CO2);
+        [TestMethod]
+        public void DeleteId()
+        {
+            // Arrange
+            var idToDelete = 1; // Assuming seeded data contains an item with Id = 1
 
-//            Measurement measurement = _repo.GetById(1);
-//            Assert.IsNull(measurement);
+            // Act
+            var deletedMeasurement = meassurements.Delete(idToDelete);
 
-//            List<Measurement> measurements = _repo.GetAll();
-//            Assert.AreEqual(3, measurements.Count);
-//        }
+            // Assert
+            Assert.IsNotNull(deletedMeasurement);
+            Assert.AreEqual(idToDelete, deletedMeasurement.Id);
 
-//        [TestCleanup]
-//        public void Cleanup()
-//        {
-//            _context.Dispose();
-//        }
-//    }
-//}
+            var retrievedMeasurement = _context.Measurements.FirstOrDefault(m => m.Id == idToDelete);
+            Assert.IsNull(retrievedMeasurement); // Ensure it's removed from the database
+        }
+
+        [TestMethod]
+        public void DeleteNullId()
+        {
+            // Arrange
+            var nonExistentId = 999;
+
+            // Act
+            var result = meassurements.Delete(nonExistentId);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void GetByIdTest()
+        {
+            // Arrange
+            var existingId = 2; // Assuming seeded data contains an item with Id = 2
+
+            // Act
+            var measurement = meassurements.GetById(existingId);
+
+            // Assert
+            Assert.IsNotNull(measurement);
+            Assert.AreEqual(existingId, measurement.Id);
+        }
+
+        [TestMethod]
+        public void GetByIdNullId()
+        {
+            // Arrange
+            var nonExistentId = 999;
+
+            // Act
+            var measurement = meassurements.GetById(nonExistentId);
+
+            // Assert
+            Assert.IsNull(measurement);
+        }
+
+        [TestMethod]
+        public void GetAllTest()
+        {
+            // Act
+            var measurements = meassurements.GetAll();
+
+            // Assert
+            Assert.IsNotNull(measurements);
+            Assert.AreEqual(4, measurements.Count); // Assuming 4 items were seeded
+        }
+
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _context.Dispose();
+        }
+    }
+}
