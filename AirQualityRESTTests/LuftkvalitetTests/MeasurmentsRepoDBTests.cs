@@ -110,6 +110,16 @@ namespace AirQualityREST.Tests
         }
 
         [TestMethod]
+        public void GetLatestIdTest()
+        {
+            // Act
+            var latestMeasurement = meassurements.GetLatestId();
+            // Assert
+            Assert.IsNotNull(latestMeasurement);
+            Assert.AreEqual(4, latestMeasurement.Id); // Assuming seeded data contains an item with Id = 4
+        }
+
+        [TestMethod]
         public void GetByIdNullId()
         {
             // Arrange
