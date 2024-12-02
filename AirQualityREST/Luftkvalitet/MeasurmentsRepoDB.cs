@@ -44,9 +44,24 @@ namespace AirQualityREST.Luftkvalitet
             return _context.Measurements.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Measurement> GetAll()
+        public List<Measurement> GetAll(string? location = null, DateTime? dateTimeLower = null, DateTime? dateTimeUpper = null)
         {
-            return _context.Measurements.ToList();
+            List<Measurement> measurementList = _context.Measurements.ToList();
+            if(location != null)
+            {
+                measurementList = measurementList.FindAll(m => m.Location == location);
+            }
+            if (dateTimeLower != null)
+            {
+                measurementList = measurementList.FindAll(m => m.Time >= dateTimeLower);
+            }
+            if (dateTimeUpper != null)
+            {
+                measurementList = measurementList.FindAll(m => m.Time <= dateTimeUpper);
+
+            }
+            
+            return measurementList;
         }
 
 

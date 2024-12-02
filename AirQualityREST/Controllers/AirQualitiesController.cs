@@ -20,12 +20,21 @@ namespace AirQualityREST.Controllers
             meassurements = measurmentsRepo;
         }
 
-        //[FromQuery] string? Location, [FromQuery] DateTime? dateTimeLower, [FromQuery] DateTime? dateTimeUpper 
+        
         // GET: api/<AirQualitiesController>
         [HttpGet]
-        public IEnumerable<Measurement> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<IEnumerable<Measurement>> Get([FromQuery] string? Location, [FromQuery] DateTime? dateTimeLower, [FromQuery] DateTime? dateTimeUpper)
         {
-            return meassurements.GetAll();
+            List<Measurement> result = meassurements.GetAll(Location, dateTimeLower, dateTimeUpper);
+
+            if(result.Count == 0)
+            {
+                return NoContent();
+            }
+            return Ok(result);
+            
         }
 
         // GET api/<AirQualitiesController>/5
