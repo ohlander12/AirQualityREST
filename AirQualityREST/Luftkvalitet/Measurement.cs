@@ -11,7 +11,7 @@
 
         public Measurement()
         {
-            Time = DateTime.Now;
+            
         }
 
         public void Validate()

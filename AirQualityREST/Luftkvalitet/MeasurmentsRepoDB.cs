@@ -16,10 +16,11 @@ namespace AirQualityREST.Luftkvalitet
         public int Count { get { return _context.Measurements.ToList().Count; } }
 
 
-        public Measurement add(Measurement measurement)
+        public Measurement Add(Measurement measurement)
         {
             measurement.Validate();
             measurement.Id = 0;
+            measurement.Time = System.DateTime.Now;
             _context.Measurements.Add(measurement);
             _context.SaveChanges();
             return measurement;

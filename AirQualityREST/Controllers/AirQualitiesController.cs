@@ -1,4 +1,5 @@
-﻿using Luftkvalitet;
+﻿using AirQualityREST.Luftkvalitet;
+using Luftkvalitet;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Metrics;
@@ -10,13 +11,21 @@ namespace AirQualityREST.Controllers
     [ApiController]
     public class AirQualitiesController : ControllerBase
     {
-        private readonly MeasurementRepo meassurements = new MeasurementRepo();
+        //private readonly MeasurmentsRepoDB meassurements = new MeasurmentsRepoDB();
 
+        private MeasurmentsRepoDB meassurements;
+
+        public AirQualitiesController(MeasurmentsRepoDB measurmentsRepo)
+        {
+            meassurements = measurmentsRepo;
+        }
+
+        //[FromQuery] string? Location, [FromQuery] DateTime? dateTimeLower, [FromQuery] DateTime? dateTimeUpper 
         // GET: api/<AirQualitiesController>
         [HttpGet]
-        public IEnumerable<Measurement> Get([FromQuery] string? Location, [FromQuery] DateTime? dateTimeLower, [FromQuery] DateTime? dateTimeUpper)
+        public IEnumerable<Measurement> Get()
         {
-            return meassurements.GetAll(Location, dateTimeLower, dateTimeUpper);
+            return meassurements.GetAll();
         }
 
         // GET api/<AirQualitiesController>/5
@@ -36,22 +45,22 @@ namespace AirQualityREST.Controllers
             }
         }
 
-        // POST api/<AirQualitiesController>
-        //[HttpPost]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public ActionResult<Measurement> Post([FromBody] Measurement newMeasurement)
-        //{
-        //    Measurement createdMeasurement = meassurements.Add(newMeasurement);
-        //    if (createdMeasurement == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    else
-        //    {
-        //        return Created("Measurement created", createdMeasurement);
-        //    }
-        //}
+        //POST api/<AirQualitiesController>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Measurement> Post([FromBody] Measurement newMeasurement)
+        {
+            Measurement createdMeasurement = meassurements.Add(newMeasurement);
+            if (createdMeasurement == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Created("Measurement created", createdMeasurement);
+            }
+        }
 
         // PUT api/<AirQualitiesController>/5
         [HttpPut("{id}")]
