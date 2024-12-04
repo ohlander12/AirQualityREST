@@ -116,7 +116,7 @@ namespace AirQualityREST.Tests
             var latestMeasurement = meassurements.GetLatestId();
             // Assert
             Assert.IsNotNull(latestMeasurement);
-            Assert.AreEqual(4, latestMeasurement.Id); // Assuming seeded data contains an item with Id = 4
+            Assert.AreEqual(meassurements.Count, latestMeasurement.Id); // Assuming seeded data contains an item with Id = 4
         }
 
         [TestMethod]
