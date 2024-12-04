@@ -46,7 +46,7 @@ namespace AirQualityREST.Luftkvalitet
 
         public List<Measurement> GetAll(string? location = null, DateTime? dateTimeLower = null, DateTime? dateTimeUpper = null)
         {
-            List<Measurement> measurementList = _context.Measurements.ToList();
+            List<Measurement> measurementList = _context.Measurements.OrderByDescending(x=> x.Id).ToList();
             if(location != null)
             {
                 measurementList = measurementList.FindAll(m => m.Location == location);
@@ -66,7 +66,9 @@ namespace AirQualityREST.Luftkvalitet
 
         public Measurement? GetLatestId()
         {
-            return _context.Measurements.OrderByDescending(m => m.Id).FirstOrDefault();
+            Measurement measurement = _context.Measurements.OrderByDescending(m => m.Id).FirstOrDefault();
+            return measurement;
+            //return _context.Measurements.OrderByDescending(m => m.Id).FirstOrDefault();
         }
 
 
