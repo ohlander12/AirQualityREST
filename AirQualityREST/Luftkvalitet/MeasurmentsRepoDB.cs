@@ -64,6 +64,11 @@ namespace AirQualityREST.Luftkvalitet
             return measurementList;
         }
 
+        public Measurement? GetLatestId()
+        {
+            return _context.Measurements.OrderByDescending(m => m.Id).FirstOrDefault();
+        }
+
 
     }
 }

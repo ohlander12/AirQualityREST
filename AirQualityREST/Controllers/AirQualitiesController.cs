@@ -2,6 +2,7 @@
 using Luftkvalitet;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System.Diagnostics.Metrics;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,17 +71,37 @@ namespace AirQualityREST.Controllers
                 return Created("Measurement created", createdMeasurement);
             }
         }
-
-        // PUT api/<AirQualitiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+        
         // DELETE api/<AirQualitiesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Measurement> Delete(int id)
         {
+            var record = meassurements.GetById(id);
+            if (record == null)
+            {
+                return NotFound("Measurement not found.");
+            }
+            meassurements.Delete(id);
+            return NoContent();
         }
+
+        [HttpGet("last")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Measurement> GetResult()
+        {
+            Measurement? measurement = meassurements.GetLatestId();
+            if (measurement == null)
+            {
+                return NotFound("Can't find measurement:");
+            }
+            else
+            {
+                return Ok(measurement);
+            }
+        }
+
     }
 }
