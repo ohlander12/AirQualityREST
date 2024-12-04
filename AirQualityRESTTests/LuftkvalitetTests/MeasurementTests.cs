@@ -11,6 +11,7 @@ namespace Luftkvalitet.Tests
     [TestClass()]
     public class MeasurementTests
     {
+
         Measurement meassurement1;
         Measurement meassurement2;
         Measurement meassurement3;
@@ -36,8 +37,11 @@ namespace Luftkvalitet.Tests
             Assert.ThrowsException<System.Exception>(() => meassurement2.Validate());
             Assert.ThrowsException<System.Exception>(() => meassurement3.Validate());
             Assert.ThrowsException<System.Exception>(() => meassurement4.Validate());
-            Assert.ThrowsException<System.Exception>(() => meassurement5.Validate());
+            meassurement5.Validate();
             Assert.ThrowsException<System.Exception>(() => meassurement6.Validate());
         }
+
+
+
     }
 }
