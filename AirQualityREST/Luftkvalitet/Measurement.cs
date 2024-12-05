@@ -20,11 +20,11 @@
             {
                 throw new ArgumentNullException("Location is required");
             }
-            if (Humidity <= 0 || Humidity >= 100)
+            if (Humidity < 0 || Humidity > 100)
             {
                 throw new ArgumentOutOfRangeException("Humidity must be between 0 and 100");
             }
-            if (CO2 <= 0)
+            if (CO2 < 0)
             {
                 throw new ArgumentOutOfRangeException("CO2 must be a positive number");
             }
