@@ -18,15 +18,15 @@
         {
             if (string.IsNullOrEmpty(Location))
             {
-                throw new System.Exception("Location is required");
+                throw new ArgumentNullException("Location is required");
             }
-            if (Humidity < 0 || Humidity > 100)
+            if (Humidity <= 0 || Humidity >= 100)
             {
-                throw new System.Exception("Humidity must be between 0 and 100");
+                throw new ArgumentOutOfRangeException("Humidity must be between 0 and 100");
             }
-            if (CO2 < 0)
+            if (CO2 <= 0)
             {
-                throw new System.Exception("CO2 must be a positive number");
+                throw new ArgumentOutOfRangeException("CO2 must be a positive number");
             }
             //if (Time == default)
             //{
