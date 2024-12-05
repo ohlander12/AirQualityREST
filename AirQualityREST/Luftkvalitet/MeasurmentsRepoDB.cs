@@ -53,11 +53,15 @@ namespace AirQualityREST.Luftkvalitet
             }
             if (dateTimeLower != null)
             {
-                measurementList = measurementList.FindAll(m => m.Time >= dateTimeLower);
+                DateTime date = (DateTime)dateTimeLower;
+                date.AddDays(-1);
+                measurementList = measurementList.FindAll(m => m.Time.Date >= date);
             }
             if (dateTimeUpper != null)
             {
-                measurementList = measurementList.FindAll(m => m.Time <= dateTimeUpper);
+                DateTime date = (DateTime)dateTimeLower;
+                date.AddDays(1);
+                measurementList = measurementList.FindAll(m => m.Time <= date);
 
             }
             
