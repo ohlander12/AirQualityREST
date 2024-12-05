@@ -1,3 +1,4 @@
+using AirQualityREST;
 using AirQualityREST.Luftkvalitet;
 using Luftkvalitet;
 using Microsoft.EntityFrameworkCore;

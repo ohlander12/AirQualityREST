@@ -1,4 +1,5 @@
-﻿using AirQualityREST.Luftkvalitet;
+﻿using AirQualityREST;
+using AirQualityREST.Luftkvalitet;
 using Luftkvalitet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
