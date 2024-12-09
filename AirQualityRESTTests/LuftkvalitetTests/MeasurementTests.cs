@@ -26,7 +26,7 @@ namespace Luftkvalitet.Tests
             meassurement2 = new Measurement() { Id = 2, CO2 = -1, Humidity = 69, Location = "Her", Time = DateTime.Now };
             meassurement3 = new Measurement() { Id = 3, CO2 = 650, Humidity = 101, Location = "Her", Time = DateTime.Now };
             meassurement4 = new Measurement() { Id = 4, CO2 = 650, Humidity = 100, Time = DateTime.Now };
-            meassurement5 = new Measurement() { Id = 5, CO2 = 650, Humidity = 100, Location = "Her" };
+            meassurement5 = new Measurement() { Id = 5, CO2 = 650, Humidity = 0, Location = "Her" };
             meassurement6 = new Measurement() { Id = 6, CO2 = 650, Humidity = -1, Location = "Her", Time = DateTime.Now };
 
         }
@@ -34,11 +34,11 @@ namespace Luftkvalitet.Tests
         public void ValidateTest()
         {
             meassurement1.Validate();
-            Assert.ThrowsException<System.Exception>(() => meassurement2.Validate());
-            Assert.ThrowsException<System.Exception>(() => meassurement3.Validate());
-            Assert.ThrowsException<System.Exception>(() => meassurement4.Validate());
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => meassurement2.Validate());
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => meassurement3.Validate());
+            Assert.ThrowsException<ArgumentNullException>(() => meassurement4.Validate());
             meassurement5.Validate();
-            Assert.ThrowsException<System.Exception>(() => meassurement6.Validate());
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => meassurement6.Validate());
         }
 
 
