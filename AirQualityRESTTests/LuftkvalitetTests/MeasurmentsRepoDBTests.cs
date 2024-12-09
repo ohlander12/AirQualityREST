@@ -170,6 +170,20 @@ namespace AirQualityREST.Tests
             Assert.IsTrue(measurements.All(m => m.Time >= dateTimeLower && m.Time <= dateTimeUpper));
         }
 
+        [TestMethod]
+        public void GetAllFilterByLocationTest()
+        {
+            // Arrange
+            var location = "Et fjerde sted";
+
+            // Act
+            List<Measurement> measurements = meassurements.GetAll(location: location);
+
+            // Assert
+            Assert.IsNotNull(measurements);
+            Assert.IsTrue(measurements.All(m => m.Location == location));
+        }
+
 
         [TestCleanup]
         public void Cleanup()
