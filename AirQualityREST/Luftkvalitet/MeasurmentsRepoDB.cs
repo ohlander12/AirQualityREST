@@ -47,6 +47,7 @@ namespace AirQualityREST.Luftkvalitet
         public List<Measurement> GetAll(string? location = null, DateTime? dateTimeLower = null, DateTime? dateTimeUpper = null)
         {
             List<Measurement> measurementList = _context.Measurements.OrderByDescending(x=> x.Id).ToList();
+            //should this stay??
             if(location != null)
             {
                 measurementList = measurementList.FindAll(m => m.Location == location);
@@ -54,7 +55,6 @@ namespace AirQualityREST.Luftkvalitet
             if (dateTimeLower != null)
             {
                 DateTime date = (DateTime)dateTimeLower;
-                //date.AddDays(-1);
                 measurementList = measurementList.FindAll(m => m.Time.Date >= date);
             }
             if (dateTimeUpper != null)

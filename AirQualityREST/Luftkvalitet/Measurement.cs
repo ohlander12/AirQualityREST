@@ -28,10 +28,7 @@
             {
                 throw new ArgumentOutOfRangeException("CO2 must be a positive number");
             }
-            //if (Time == default)
-            //{
-            //    throw new System.Exception("Time is required");
-            //}
+            //removed time if statement 
         }
     }
 }
