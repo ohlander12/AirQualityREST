@@ -155,6 +155,21 @@ namespace AirQualityREST.Tests
 
         }
 
+        [TestMethod]
+        public void GetAllFilterByDateTest()
+        {
+            // Arrange
+            var dateTimeLower = new DateTime(2024, 12, 9);
+            var dateTimeUpper = new DateTime(2024, 12, 5);
+
+            // Act
+            List<Measurement> measurements = meassurements.GetAll(dateTimeLower: dateTimeLower, dateTimeUpper: dateTimeUpper);
+
+            // Assert
+            Assert.IsNotNull(measurements);
+            Assert.IsTrue(measurements.All(m => m.Time >= dateTimeLower && m.Time <= dateTimeUpper));
+        }
+
 
         [TestCleanup]
         public void Cleanup()
