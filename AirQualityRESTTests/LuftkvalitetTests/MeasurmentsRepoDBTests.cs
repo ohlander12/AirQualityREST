@@ -35,7 +35,9 @@ namespace AirQualityREST.Tests
                  new Measurement { CO2 = 1500, Humidity = 100, Temperature = 22, Location = "Her", Time = DateTime.Now.AddDays(-300) },
                  new Measurement { CO2 = 700, Humidity = 56, Temperature = 18, Location = "Der", Time = DateTime.Now.AddDays(-100) },
                  new Measurement { CO2 = 300, Humidity = 72, Temperature = 19, Location = "Et andet sted", Time = DateTime.Now.AddDays(-1000) },
-                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now }
+                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now },
+                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now}
+
             );
             _context.SaveChanges();
         }
@@ -141,6 +143,16 @@ namespace AirQualityREST.Tests
             // Assert
             Assert.IsNotNull(measurements);
             Assert.AreEqual(4, measurements.Count); // Assuming 4 items were seeded
+        }
+
+        [TestMethod]
+        public void GetAllFilterTest()
+        {
+            
+            List<Measurement> measurements = meassurements.GetAll(dateTimeLower: new DateTime(2024,12,9));
+            Assert.AreEqual(2, measurements.Count);
+
+
         }
 
 
