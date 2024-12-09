@@ -36,7 +36,7 @@ namespace AirQualityREST.Tests
                  new Measurement { CO2 = 700, Humidity = 56, Temperature = 18, Location = "Der", Time = DateTime.Now.AddDays(-100) },
                  new Measurement { CO2 = 300, Humidity = 72, Temperature = 19, Location = "Et andet sted", Time = DateTime.Now.AddDays(-1000) },
                  new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now },
-                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et tredje sted", Time = DateTime.Now}
+                 new Measurement { CO2 = 800, Humidity = 1, Temperature = 21, Location = "Et fjerde sted", Time = DateTime.Now}
 
             );
             _context.SaveChanges();
