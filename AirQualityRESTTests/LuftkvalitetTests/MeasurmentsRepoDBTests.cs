@@ -142,7 +142,7 @@ namespace AirQualityREST.Tests
 
             // Assert
             Assert.IsNotNull(measurements);
-            Assert.AreEqual(4, measurements.Count); // Assuming 4 items were seeded
+            Assert.AreEqual(5, measurements.Count); // Assuming 5 items were seeded
         }
 
         [TestMethod]
